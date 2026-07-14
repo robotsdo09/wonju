@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원주고20713 심의석</title>
+<style>
+    :root {
+        --primary: #1d4ed8;
+        --primary-dark: #1e3a8a;
+        --primary-light: #eef2ff;
+        --accent: #f59e0b;
+        --text: #1f2933;
+        --text-light: #52606d;
+        --bg: #f3f4f8;
+        --card-bg: #ffffff;
+        --border: #e2e5ec;
+        --radius: 14px;
+        --shadow: 0 6px 20px rgba(30, 41, 59, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: "Pretendard", "Malgun Gothic", Arial, sans-serif;
+        margin: 0;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+    }
+
+    /* 상단 헤더 */
+    .site-header {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        color: #fff;
+        padding: 28px 5vw 22px;
+    }
+
+    .site-header .brand {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .site-header h1 {
+        margin: 0;
+        font-size: 1.6rem;
+        letter-spacing: 0.5px;
+    }
+
+    .site-header .student-id {
+        font-size: 0.95rem;
+        opacity: 0.85;
+        font-weight: 500;
+    }
+
+    /* 네비게이션 */
+    nav.main-nav {
+        margin-top: 18px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    nav.main-nav button {
+        font-family: inherit;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 8px 18px;
+        border-radius: 999px;
+        background-color: rgba(255, 255, 255, 0.12);
+        transition: background-color 0.2s ease, transform 0.15s ease;
+    }
+
+    nav.main-nav button:hover {
+        background-color: rgba(255, 255, 255, 0.28);
+        transform: translateY(-1px);
+    }
+
+    nav.main-nav button.active {
+        background-color: var(--accent);
+        color: #1f2933;
+    }
+
+    /* 본문 레이아웃 */
+    main {
+        max-width: 880px;
+        margin: -10px auto 60px;
+        padding: 0 5vw;
+    }
+
+    /* 페이지 전환용 */
+    .page {
+        display: none;
+        animation: fadeIn 0.35s ease;
+    }
+
+    .page.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    section.card {
+        background-color: var(--card-bg);
+        padding: 28px 30px;
+        margin-top: 24px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+    }
+
+    section.card h2 {
+        margin-top: 0;
+        color: var(--primary-dark);
+        border-bottom: 3px solid var(--primary-light);
+        padding-bottom: 10px;
+    }
+
+    .subtitle {
+        color: var(--text-light);
+        margin-top: -6px;
+        margin-bottom: 20px;
+    }
+
+    /* 프로필 히어로 영역 (메인페이지) */
+    .hero {
+        display: flex;
+        gap: 26px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .hero img {
+        width: 220px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        object-fit: cover;
+    }
+
+    .hero .hero-text h2 {
+        margin: 0 0 8px;
+        color: var(--primary-dark);
+        border: none;
+        padding: 0;
+    }
+
+    .badge {
+        display: inline-block;
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+        font-size: 0.85rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 999px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+    }
+
+    /* 카드형 목록 (그리드) */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 10px;
+    }
+
+    .grid .item {
+        background-color: var(--primary-light);
+        border-radius: 12px;
+        padding: 18px;
+        border: 1px solid #dbe3ff;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        cursor: default;
+    }
+
+    .grid .item:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+    }
+
+    .grid .item .emoji {
+        font-size: 1.6rem;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .grid .item h4 {
+        margin: 4px 0 6px;
+        color: var(--primary-dark);
+    }
+
+    .grid .item p {
+        margin: 0;
+        font-size: 0.92rem;
+        color: var(--text-light);
+    }
+
+    /* 타임라인 (포트폴리오용) */
+    .timeline {
+        border-left: 3px solid var(--primary-light);
+        margin-left: 6px;
+        padding-left: 22px;
+    }
+
+    .timeline .entry {
+        position: relative;
+        margin-bottom: 26px;
+    }
+
+    .timeline .entry::before {
+        content: "";
+        position: absolute;
+        left: -29px;
+        top: 4px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: var(--accent);
+        border: 3px solid #fff;
+        box-shadow: 0 0 0 2px var(--primary-light);
+    }
+
+    .timeline .entry .date {
+        font-size: 0.85rem;
+        color: var(--text-light);
+        font-weight: 600;
+    }
+
+    .timeline .entry h4 {
+        margin: 2px 0 4px;
+        color: var(--primary-dark);
+    }
+
+    /* 버튼 & 링크 */
+    .link-out, a.link-out {
+        display: inline-block;
+        margin-top: 8px;
+        color: var(--primary);
+        font-weight: 700;
+        text-decoration: none;
+        border-bottom: 2px solid var(--primary-light);
+        background: none;
+        border-left: none;
+        border-top: none;
+        border-right: none;
+        cursor: pointer;
+        font-size: 1rem;
+        font-family: inherit;
+        padding: 0;
+    }
+
+    .link-out:hover {
+        border-bottom-color: var(--primary);
+    }
+
+    /* 태그 */
+    .tag {
+        display: inline-block;
+        background-color: #fff4e0;
+        color: #92400e;
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 999px;
+        margin: 2px 4px 2px 0;
+    }
+
+    /* 푸터 */
+    footer {
+        text-align: center;
+        padding: 22px 5vw 40px;
+        color: var(--text-light);
+        font-size: 0.85rem;
+    }
+
+    @media (max-width: 560px) {
+        .hero {
+            flex-direction: column;
+            text-align: center;
+        }
+        .hero img {
+            width: 70%;
+            max-width: 260px;
+        }
+    }
+</style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="brand">
+            <h1>심의석의 홈페이지</h1>
+            <span class="student-id">원주고등학교 · 20713</span>
+        </div>
+        <nav class="main-nav">
+            <button data-page="home" class="active" onclick="showPage('home')">홈</button>
+            <button data-page="hobby" onclick="showPage('hobby')">나의 취미</button>
+            <button data-page="interest" onclick="showPage('interest')">관심 분야</button>
+            <button data-page="portfolio" onclick="showPage('portfolio')">포트폴리오</button>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ================= 홈 ================= -->
+        <div id="home" class="page active">
+            <section class="card">
+                <div class="hero">
+                    <img src="media/wonjugo123.png" alt="원주고등학교">
+                    <div class="hero-text">
+                        <h2>안녕하세요, 심의석입니다 👋</h2>
+                        <p>원주고등학교에 재학 중인 학생이며, 코딩과 인공지능(AI)에 관심이 많습니다.
+                            새로운 기술을 배우고 직접 만들어보는 것을 좋아합니다.</p>
+                        <div>
+                            <span class="badge">원주고등학교</span>
+                            <span class="badge">학번 20713</span>
+                            <span class="badge">코딩 &amp; AI 관심</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>이 홈페이지 소개</h2>
+                <p class="subtitle">아래 메뉴를 통해 저에 대한 더 자세한 이야기를 확인하실 수 있어요.</p>
+                <div class="grid">
+                    <div class="item">
+                        <span class="emoji">🎮</span>
+                        <h4>나의 취미</h4>
+                        <p>웹 서핑, 게임, 독서, 영화 감상 등 평소 즐기는 활동들을 소개합니다.</p>
+                        <button class="link-out" onclick="showPage('hobby')">자세히 보기 →</button>
+                    </div>
+                    <div class="item">
+                        <span class="emoji">🤖</span>
+                        <h4>관심 분야</h4>
+                        <p>코딩, 프로그래밍, AI 등 제가 깊이 파고들고 있는 분야를 정리했습니다.</p>
+                        <button class="link-out" onclick="showPage('interest')">자세히 보기 →</button>
+                    </div>
+                    <div class="item">
+                        <span class="emoji">📁</span>
+                        <h4>포트폴리오</h4>
+                        <p>지금까지 진행했던 활동과 앞으로의 계획을 타임라인으로 정리했습니다.</p>
+                        <button class="link-out" onclick="showPage('portfolio')">자세히 보기 →</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>연락 및 참고</h2>
+                <p>더 많은 정보를 원하시면
+                    <a class="link-out" href="https://wonjugo.gwe.hs.kr/main.do" target="_blank" rel="noopener">원주고등학교 홈페이지</a>를 방문해주세요.
+                </p>
+            </section>
+        </div>
+
+        <!-- ================= 나의 취미 ================= -->
+        <div id="hobby" class="page">
+            <section class="card">
+                <h2>나의 취미</h2>
+                <p class="subtitle">쉬는 시간과 방과 후에 즐겨 하는 활동들을 소개합니다.</p>
+
+                <div class="grid">
+                    <div class="item">
+                        <span class="emoji">🌐</span>
+                        <h4>웹 서핑</h4>
+                        <p>새로운 기술 트렌드, 뉴스, 흥미로운 아티클을 찾아보는 것을 좋아합니다.
+                            특히 IT·개발 관련 커뮤니티를 자주 둘러봅니다.</p>
+                    </div>
+                    <div class="item">
+                        <span class="emoji">🎮</span>
+                        <h4>게임</h4>
+                        <p>전략을 세우고 문제를 해결하는 과정이 재미있어서 다양한 장르의 게임을
+                            즐깁니다. 특히 논리력이 필요한 게임을 선호합니다.</p>
+                    </div>
+                    <div class="item">
+                        <span class="emoji">📚</span>
+                        <h4>책 읽기</h4>
+                        <p>과학·기술 분야의 책과 소설을 번갈아 읽으며, 새로운 지식과 상상력을
+                            동시에 채우는 시간을 좋아합니다.</p>
+                    </div>
+                    <div class="item">
+                        <span class="emoji">🎬</span>
+                        <h4>영화 감상</h4>
+                        <p>SF와 스릴러 장르를 특히 좋아하며, 영화 속 기술적 상상력에서
+                            영감을 받는 경우가 많습니다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>취미가 저에게 주는 것</h2>
+                <p>이런 취미 생활들은 단순한 여가를 넘어서, 새로운 아이디어를 얻고
+                    스트레스를 해소하는 데에도 큰 도움이 됩니다. 게임과 독서를 통해 얻은
+                    문제 해결 능력은 코딩 공부에도 긍정적인 영향을 주고 있습니다.</p>
+                <button class="link-out" onclick="showPage('interest')">제 관심 분야도 보러 가기 →</button>
+            </section>
+        </div>
+
+        <!-- ================= 관심 분야 ================= -->
+        <div id="interest" class="page">
+            <section class="card">
+                <h2>관심 분야</h2>
+                <p class="subtitle">앞으로 더 깊이 공부하고 진로로 삼고 싶은 분야들입니다.</p>
+
+                <div class="grid">
+                    <div class="item">
+                        <span class="emoji">💻</span>
+                        <h4>코딩</h4>
+                        <p>직접 코드를 작성해서 문제를 해결하는 과정이 재미있습니다.
+                            작은 프로그램부터 시작해 점점 더 복잡한 프로젝트에 도전하고 있습니다.</p>
+                    </div>
+                    <div class="item">
+                        <span class="emoji">🛠️</span>
+                        <h4>프로그래밍</h4>
+                        <p>알고리즘과 자료구조를 공부하며 효율적인 코드를 짜는 방법을
+                            배우고 있습니다. 다양한 언어를 접해보는 것에도 관심이 많습니다.</p>
+                    </div>
+                    <div class="item">
+                        <span class="emoji">🤖</span>
+                        <h4>AI (인공지능)</h4>
+                        <p>인공지능이 실제 문제를 해결하는 방식이 흥미로워서 관련 개념과
+                            원리를 스스로 찾아 공부하고 있습니다.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>공부 방법</h2>
+                <p>온라인 강의와 책을 병행하며 기초 개념을 익히고, 배운 내용을 직접
+                    코드로 작성해보면서 이해도를 높이고 있습니다. 막히는 부분은 커뮤니티나
+                    관련 자료를 찾아보며 스스로 해결하려고 노력합니다.</p>
+                <div>
+                    <span class="tag">#자료구조</span>
+                    <span class="tag">#알고리즘</span>
+                    <span class="tag">#머신러닝 기초</span>
+                    <span class="tag">#파이썬</span>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>앞으로의 목표</h2>
+                <p>코딩과 AI 지식을 꾸준히 쌓아서, 실생활의 문제를 해결하는 나만의
+                    프로젝트를 만들어보는 것이 목표입니다. 관련된 활동은
+                    포트폴리오 페이지에서 계속 업데이트할 예정입니다.</p>
+                <button class="link-out" onclick="showPage('portfolio')">포트폴리오 확인하러 가기 →</button>
+            </section>
+        </div>
+
+        <!-- ================= 포트폴리오 ================= -->
+        <div id="portfolio" class="page">
+            <section class="card">
+                <h2>포트폴리오</h2>
+                <p class="subtitle">지금까지의 활동과 앞으로의 계획을 시간 순서로 정리했습니다.</p>
+
+                <div class="timeline">
+                    <div class="entry">
+                        <div class="date">2026. 1분기</div>
+                        <h4>개인 홈페이지 제작</h4>
+                        <p>HTML/CSS/JS를 활용해 저를 소개하는 개인 홈페이지를 직접 제작했습니다.
+                            한 화면 안에서 메뉴에 따라 내용이 바뀌는 구조를 스스로 구현해봤습니다.</p>
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                    <div class="entry">
+                        <div class="date">2026. 2분기 (진행 중)</div>
+                        <h4>파이썬 기초 프로젝트</h4>
+                        <p>파이썬을 이용한 간단한 자동화 프로그램과 미니 게임을 만들어보며
+                            기초 문법과 로직을 다지고 있습니다.</p>
+                        <span class="tag">Python</span>
+                        <span class="tag">알고리즘</span>
+                    </div>
+                    <div class="entry">
+                        <div class="date">2026. 하반기 (계획)</div>
+                        <h4>AI 기초 학습 및 미니 프로젝트</h4>
+                        <p>머신러닝의 기본 개념을 배우고, 배운 내용을 활용한 작은 규모의
+                            AI 프로젝트를 진행해볼 계획입니다.</p>
+                        <span class="tag">AI</span>
+                        <span class="tag">머신러닝</span>
+                    </div>
+                    <div class="entry">
+                        <div class="date">향후 목표</div>
+                        <h4>실생활 문제 해결 프로젝트</h4>
+                        <p>학교생활이나 일상 속 불편함을 코딩으로 해결하는 나만의
+                            프로젝트를 기획하고 완성하는 것이 궁극적인 목표입니다.</p>
+                        <span class="tag">기획</span>
+                        <span class="tag">개발</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>더 알아보기</h2>
+                <p>제 취미와 관심 분야가 궁금하시다면 아래 버튼에서 확인하실 수 있습니다.</p>
+                <button class="link-out" onclick="showPage('hobby')">나의 취미 보기 →</button><br>
+                <button class="link-out" onclick="showPage('interest')">관심 분야 보기 →</button>
+            </section>
+        </div>
+
+    </main>
+
+    <footer>
+        Copyright &copy; 2026 심의석. All rights reserved.
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            // 모든 페이지 숨기기
+            document.querySelectorAll('.page').forEach(function (page) {
+                page.classList.remove('active');
+            });
+            // 선택한 페이지만 보이기
+            document.getElementById(pageId).classList.add('active');
+
+            // 네비게이션 버튼 활성화 표시
+            document.querySelectorAll('nav.main-nav button').forEach(function (btn) {
+                btn.classList.toggle('active', btn.dataset.page === pageId);
+            });
+
+            // 페이지 전환 시 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
